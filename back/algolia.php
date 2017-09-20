@@ -7,7 +7,7 @@ TODO :
 
 
 $GLOBALS['APP_ID'] = '653YPGRUJS';
-require_once('secret_key.php');
+require_once('secret_key.php'); 
 $GLOBALS['DEFAULT_INDEX'] = 'default_Index';
 $GLOBALS['OBJECTS_LIMIT'] = (10 * 1000);
 
