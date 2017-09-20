@@ -375,11 +375,16 @@ function Algolia(site){
        		dataType : 'json',
        		success : function(data, status, jqXHR){
        			if(data === true){
-       				tcons('This site already has an Algolia index !');
-       				$this.algolia.startSearch();
+       				//We check if the user asked for a Reindex
+       				if($('#force-reindex').is(':checked')){
+       					$this.algolia.deleteIndex();
+       				}else{
+       					tcons('This site already has an Algolia index !');
+       					$this.algolia.startSearch();
+       				}
        			}else if(data === false){
        				//we need to create an index
-       				$this.fetchCategories(site);
+       				$this.fetchCategories($this);
        			}
        		}
        	});
@@ -404,8 +409,6 @@ function Algolia(site){
 	}
 
 	this.createIndex = function(){
-		cons('createIndex is started');
-
 		//We'll use the indexName to store the system type in order to retrieve it at anytime
 		var indexName = this.cheatSystem();
 
@@ -427,6 +430,34 @@ function Algolia(site){
        		}
        	});
 	};
+
+	this.deleteIndex = function(){
+		//We'll use the indexName to store the system type in order to retrieve it at anytime
+		var indexName = this.cheatSystem();
+
+		$.ajax({
+       		url : 'back/algolia.php',
+       		type : 'POST', //DELETE seems to be more problem...
+       		data: {action: 'deleteIndex', indexName: indexName},
+       		dataType : 'json',
+       		success : function(data, status, jqXHR){
+
+       			if(typeof data === 'object' && 'error' in data){
+       				tcons(data.error);
+       				cons(data);
+       				cons(status);
+       				cons(jqXHR);
+       			}else if(typeof data === 'object' && 'deletedAt' in data){
+       				tcons('The previous index just get erased.');
+       				//Let's start from 0;
+       				$this.fetchCategories($this);
+       			}else{
+       				tcons('An error happened while trying to delete the index. Aborted.');
+       				return false;
+       			}
+       		}
+       	});
+	}
 
 	this.startSearch = function(){
 		cons('LETS GO SEARCH!')

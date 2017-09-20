@@ -69,6 +69,15 @@ a.dropdown-item{
     font-size: 5em;
 }
 
+.intro-message .form-check{
+    text-align: left;
+    width: 68%;
+    margin: auto;
+    font-size: 1em;
+    color: #808080;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
+}
+
 .intro-divider {
     width: 400px;
     border-top: 1px solid #f8f8f8;

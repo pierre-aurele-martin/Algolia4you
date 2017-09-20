@@ -29,6 +29,9 @@ if(!empty($_GET)){
 		case 'createIndex':
 			exit(returnJSON(createIndex($client, $_POST['indexName'], json_decode($_POST['batch']))));
 		break;
+		case 'deleteIndex':
+			exit(returnJSON(deleteIndex($client, $_POST['indexName'])));
+		break;
 	}
 }
 
