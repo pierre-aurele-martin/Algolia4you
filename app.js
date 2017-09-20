@@ -619,7 +619,7 @@ function getIndices(){
     		menu.find('.alg-index').remove();
 
     		$.each(data.items, function(i,v){
-    			menu.append('<a class="dropdown-item alg-index" href="/algolia.html#'+v.name+'">'+v.realName+'</a>');
+    			menu.append('<a class="dropdown-item alg-index" href="algolia.html#'+v.name+'">'+v.realName+'</a>');
     		})
 
     		//Debug
