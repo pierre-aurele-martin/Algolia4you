@@ -274,8 +274,12 @@ p.copyright {
     }
 
     #url-addon-1, #url-addon-2{
-    font-size: 1.5em;
-}
+        font-size: 1.5em;
+    }
+
+    .navbar-brand{
+        font-size: 12px;
+    }
 
     .intro-message {
         padding-bottom: 15%;
@@ -333,3 +337,12 @@ p.copyright {
         padding-left: 0px;
     }
 }
+
+@media(min-width:768px) {
+
+    .nav-container{
+        width: auto;
+    }
+
+}
+

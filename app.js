@@ -78,7 +78,7 @@ function Site(){
 	this.fetchCategories = function(site){
 		tcons('Starting to fetch your categories, depending on your server, it could take a few minutes.');
 		tcons('Here is a video to watch if you want, you\'ll be redirect as soon as we\'re done !');
-		tcons('<div class="" style="position: absolute; right: 0; bottom:1em;"><iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/vGXJANUkOPw" frameborder="0" allowfullscreen></iframe></div>');
+		tcons('<div class="" style="position: absolute; right: 0; bottom:2em;"><iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/vGXJANUkOPw" frameborder="0" allowfullscreen></iframe></div>');
 
 		$.ajax({
        		url : 'back/scrapper.php',
