@@ -49,7 +49,7 @@
     },
     "products": {
       "product" : [
-        "//div[@id=\"main\"]//*[contains(concat(' ', normalize-space(@class), ' '), ' collection') or contains(concat(' ', normalize-space(@id), ' '), ' collection')]/a/@href",
+        "//div[@id=\"main\"]//*[contains(concat(' ', normalize-space(@class), ' '), ' collection') or contains(concat(' ', normalize-space(@id), ' '), ' collection')]//a/@href",
         "//div[contains(concat(' ', normalize-space(@class), ' '), ' main ')]//a/@href",
         "//div[@class=\"product-grid-item\"]/a/@href"
       ],

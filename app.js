@@ -145,8 +145,7 @@ function Site(){
 
 				site.maxPerCat = Math.floor(site.maxProducts / site.catsInArray.length);
 
-				//DEBUG EASIER : 
-				site.catsInArray = site.catsInArray.slice(0,3);
+				//DEBUG EASIER : site.catsInArray = site.catsInArray.slice(0,3);
 
 				//We launch site.maxAsync cats in parrallel to avoid taking to much time.
 				for(i=0; i < site.maxAsync; i++){
@@ -291,7 +290,7 @@ function Site(){
 	       	}).then(function(data){
 
 	       		if('error' in data){
-	       			tcons('An error occured while trying to get one product');
+	       			tcons('An error occured while trying to get one product. It\'s not as bad as it look, we continue...');
 	       			cons(data);
 	       			catObject.products[url] = {false: false};
 
@@ -304,7 +303,7 @@ function Site(){
 	       			/*
 					What do we need at least to add a product : name and price
 	       			*/
-	       			if(data.name != '' && data.price != ''){
+	       			if((data.name !== '' && data.name !== null) && (data.price !== '' && data.price !== null)){
 		       			var crumb = catObject.categories;
 
 		       			var trace = '';
@@ -412,9 +411,6 @@ function Algolia(site){
 		//We'll use the indexName to store the system type in order to retrieve it at anytime
 		var indexName = this.cheatSystem();
 
-		cons($this.batch);
-		return false;
-
 		$.ajax({
        		url : 'back/algolia.php',
        		type : 'POST',
@@ -463,8 +459,8 @@ function Algolia(site){
 	}
 
 	this.startSearch = function(){
-		cons('LETS GO SEARCH!')
-		//DEV - window.location.pathname = 'algolia.html/'+'#'+$this.url;
+		var indexName = this.cheatSystem();
+		window.location.href = window.location.origin + '/algolia.html#'+indexName;
 	}
 }
 
