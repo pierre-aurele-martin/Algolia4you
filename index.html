@@ -343,7 +343,7 @@ TO DO :
               };
             })();
 
-            inputs.keyup(function() {
+            inputs.on('input', function() {
                 var $this = $(this);
                 delay(function(){
                     var value = $this.val();

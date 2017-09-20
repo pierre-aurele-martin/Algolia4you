@@ -9,6 +9,7 @@ const apiKey = '67aebf7df47999607220ceb259829579'; /*Algolia default: *249078a3d
 
 //Crawler handler function
 function Site(){
+	this.inProgress = false;
 	this.url = false;
 	this.maxProducts = 500;
 	this.maxPerCat = 0;
@@ -41,7 +42,6 @@ function Site(){
 
 	    	inputs.attr('readonly', true);
 
-	    	//DEV - 
 	    	this.setSystem();
 	    }
 	};
@@ -57,6 +57,7 @@ function Site(){
 
        			if('error' in data){
        				tcons('Erreur => ' . data.error);
+       				return false;
        			}else{
        				tcons('Système détecté : ' + data.success);
 
@@ -72,6 +73,7 @@ function Site(){
        			cons(error);
        			cons(status); 
        			cons(jqXHR);
+       			return false;
        		}
     	});
 	}
@@ -364,7 +366,7 @@ function Algolia(site){
 	$this = site;
 
 	this.checkIndex = function (){
-		
+
 		var indexName = this.cheatSystem();
 
 		$.ajax({
