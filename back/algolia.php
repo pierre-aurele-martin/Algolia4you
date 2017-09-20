@@ -23,10 +23,6 @@ if(!empty($_GET)){
 		case 'checkIndex':
 			exit(returnJSON(checkIndex(getIndices($client), $_GET['indexName'])));
 		break;
-
-		case 'deleteIndices':
-			exit(deleteAllIndices($client));
-		break;
 	}
 }else if(!empty($_POST)){
 	switch ($_POST['action']) {
