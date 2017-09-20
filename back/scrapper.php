@@ -188,13 +188,16 @@ function getProduct($url, $system){
 		//That whole block is not very efficient cause we don't remember which Xpath from previous product but thats tradeoff for dealing product 1 by 1
 		foreach ($productXpaths as $xpath){
 			$search = searchXpath($doc, $xpath);
-			
+
 			foreach ($search as $node) {
+
 				if($key === 'description'){
 					$product[$key] .= $node->nodeValue;
 				}else{
-					$product[$key] = $node->nodeValue;
-					continue;
+					if(empty(trim($node->nodeValue)) === false){
+						$product[$key] = $node->nodeValue;
+						continue 2;
+					}
 				}
 			} // end foreach 
 			
@@ -211,7 +214,7 @@ function getProduct($url, $system){
 			}
 		}
 	}
-
+	
 	return $product;
 }
 

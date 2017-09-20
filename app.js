@@ -146,7 +146,7 @@ function Site(){
 				site.maxPerCat = Math.floor(site.maxProducts / site.catsInArray.length);
 
 				//DEBUG EASIER : 
-				//site.catsInArray = site.catsInArray.slice(0,3);
+				site.catsInArray = site.catsInArray.slice(0,3);
 
 				//We launch site.maxAsync cats in parrallel to avoid taking to much time.
 				for(i=0; i < site.maxAsync; i++){
@@ -411,6 +411,9 @@ function Algolia(site){
 	this.createIndex = function(){
 		//We'll use the indexName to store the system type in order to retrieve it at anytime
 		var indexName = this.cheatSystem();
+
+		cons($this.batch);
+		return false;
 
 		$.ajax({
        		url : 'back/algolia.php',
