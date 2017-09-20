@@ -462,7 +462,7 @@ function Algolia(site){
 
 	this.startSearch = function(){
 		var indexName = this.cheatSystem();
-		window.location.href = window.location.origin + '/algolia.html#'+indexName;
+		document.location.href = 'algolia.html#'+indexName;
 	}
 }
 
