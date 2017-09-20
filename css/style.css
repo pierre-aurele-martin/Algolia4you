@@ -151,6 +151,11 @@ p.copyright {
     font-size: 3em;
     height: 2em;
 }
+
+#url-addon-1, #url-addon-2{
+    font-size: 3em;
+}
+
 /*index.html end here*/
 
 /*Algolia.html start here*/
@@ -262,6 +267,15 @@ p.copyright {
 }
 
 @media(max-width:767px) {
+
+    #scrap-url, #scrap-url-2 {
+        font-size: 1.5em;
+        height: 2em;
+    }
+
+    #url-addon-1, #url-addon-2{
+    font-size: 1.5em;
+}
 
     .intro-message {
         padding-bottom: 15%;
