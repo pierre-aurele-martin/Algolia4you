@@ -483,7 +483,7 @@ function Search(){
 		//hierarchical menus
 		search.addWidget(
 			instantsearch.widgets.hierarchicalMenu({
-				collapsible: true,
+				collapsible: {collapsed: (window.innerWidth <= 1200)},
 	    		container: '#hierarchical-categories',
 	    		attributes: ['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1', 'hierarchicalCategories.lvl2', 'hierarchicalCategories.lvl3'],
 	    		templates: {
@@ -500,6 +500,7 @@ function Search(){
 		//refinementList
 		search.addWidget(
 			instantsearch.widgets.refinementList({
+				collapsible: {collapsed: (window.innerWidth <= 1200)},
 	    		container: '#brands',
 	    		attributeName: 'brand',
 	    		operator: 'or',
@@ -588,7 +589,7 @@ function getIndices(){
     		menu.find('.alg-index').remove();
 
     		$.each(data.items, function(i,v){
-    			menu.append('<a class="dropdown-item alg-index" href="/algolia/algolia.html#'+v.name+'">'+v.realName+'</a>');
+    			menu.append('<a class="dropdown-item alg-index" href="/algolia4you/algolia.html#'+v.name+'">'+v.realName+'</a>');
     		})
 
     		//Debug
