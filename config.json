@@ -1,0 +1,83 @@
+{
+  "woocommerce": {
+    "detect": [
+      "//meta[@name=\"generator\"][contains(@content, \"WooCommerce\")",
+      "//link[@id=\"woocommerce-css\"]"
+    ],
+    "categories":{
+      "url": "/product_cat-sitemap.xml"
+    },
+    "products": {
+      "product" : [
+        "//*[contains(concat(' ', normalize-space(@class), ' '), ' product ')]/a/@href"
+      ],
+      "paging" : "/page/{i}/"
+    },
+    "product":{
+        "name": [
+          "(//h1)[1]/text()"
+        ],
+        "description": [
+          "//*[@id=\"tab-description\"]//text()", 
+          "//*[@class=\"product-info\"]//p//text()",
+          "//*[@class=\"woocommerce-product-details__short-description\"]//*[@class=\"wpb_wrapper\"]//text()"
+          ],
+        "brand": [
+          "(//meta[@property=\"og:site_name\"])[1]//@content"
+          ],
+        "categories": false,
+        "hierarchicalCategories": false,
+        "price": [
+          "(//*[@class=\"price\"])[1]//text()"
+          ],
+        "image": [
+          "(//meta[@property=\"og:image\" and @content != ''])[1]/@content",
+          "//*[@itemprop=\"image\"][1]//@href"
+          ],
+        "url": false,
+        "popularity": false,
+        "rating": false
+    }
+  },
+  "shopify": {
+    "detect": [
+      "//meta[@name=\"shopify-checkout-api-token\"]"
+    ],
+    "categories":{
+      "url": "/sitemap_collections_1.xml"
+    },
+    "products": {
+      "product" : [
+        "//div[@id=\"main\"]//*[contains(concat(' ', normalize-space(@class), ' '), ' collection') or contains(concat(' ', normalize-space(@id), ' '), ' collection')]/a/@href",
+        "//div[contains(concat(' ', normalize-space(@class), ' '), ' main ')]//a/@href",
+        "//div[@class=\"product-grid-item\"]/a/@href"
+      ],
+      "paging" : "?page={i}/"
+    },
+    "product":{
+        "name": [
+          "(//h1)[1]//text()",
+          "(//h4)[1]//text()"
+        ],
+        "description": [
+          "//*[@itemprop=\"description\"]//text()", 
+          "//*[contains(concat(' ', normalize-space(@class), ' '), 'description')]//text()"
+          ],
+        "brand": [
+          "(//meta[@property=\"og:site_name\"])[1]//@content"
+          ],
+        "categories": false,
+        "hierarchicalCategories": false,
+        "price": [
+          "(//*[@itemprop=\"price\"])[1]/@content",
+          "(//*[@class=\"price\"])[1]//text()"
+          ],
+        "image": [
+          "(//meta[@property=\"og:image\" and @content != ''])[1]/@content"
+          ],
+        "url": false,
+        "popularity": false,
+        "rating": false
+    }
+  }
+}
