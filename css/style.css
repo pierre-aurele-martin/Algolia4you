@@ -70,9 +70,6 @@ a.dropdown-item{
 }
 
 .intro-message .form-check{
-    text-align: left;
-    width: 68%;
-    margin: auto;
     font-size: 1em;
     color: #808080;
     text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
