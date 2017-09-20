@@ -17,6 +17,7 @@ $GLOBALS['CONF'] = json_decode(file_get_contents('../config.json'), TRUE);
 if(!empty($_GET)){
 	switch ($_GET['action']) {
 		case 'checkSystem':
+			//var_dump($_GET);
 			exit(returnJSON(checkSystem($_GET['url'])));
 		break;
 
@@ -237,7 +238,6 @@ function checkSystem($url){
 	if($html->http_status_code !== 200){
 		return array('error' => $html->error_message);
 	}else{
-		
 		$doc = htmlToXpath($html->response);
 	}
 

@@ -22,12 +22,14 @@ function Site(){
 	this.algolia = new Algolia(this);
 
 	this.setUrl = function(url){
+
 	    // strip off "http://" and/or "www."
 	    url = url.replace("http://","").replace("https://","").replace("www.","");
 
     	var regex = /^([a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?)\/?(\S*)/;
 	    
 	    if (regex.test(url) === false) {
+
 	    	$('#url-addon-1, #url-addon-2').css('background-color', '#f77171');
 	    	this.url = false;
 
@@ -40,16 +42,16 @@ function Site(){
 	    	inputs.attr('readonly', true);
 
 	    	//DEV - 
-	    	this.algolia.checkIndex();
+	    	this.setSystem();
 	    }
 	};
 
-	this.setSystem = function(site){
+	this.setSystem = function(){
 
 		$.ajax({
        		url : 'back/scrapper.php',
        		type : 'GET',
-       		data: {action: 'checkSystem', url: site.url},
+       		data: {action: 'checkSystem', url: this.url},
        		dataType : 'json',
        		success : function(data, status, jqXHR){
 
@@ -61,8 +63,7 @@ function Site(){
        				site.system = data.success;
        				site.conf = conf[site.system];
        				
-       				site.fetchCategories(site);
-
+       				site.algolia.checkIndex();
 
        			}
        		},
@@ -138,8 +139,6 @@ function Site(){
 				}
 
 				crumbCategories(site.cats);
-
-				//DEV site.catsInArray = [{name: "gift-certificates", url: "https://xeroshoes.com/shop/product-category/gift-certificates/"}];
 
 				//we must have at least one cats so no need to check for specific count here. 
 				tcons(site.catsInArray.length + ' cats were found. Now parsing...');
@@ -228,13 +227,15 @@ function Site(){
 							if(Object.keys(v).length === 2 && 'url' in v && cat === i){
 
 								//Sometime, the root or URL is not in the link. Then we must add it
-								var regex = /^http/g;
+								var regex = /^http/;
 								$.each(products, function(i,v){
-									if(!regex.test(i)){
+									
+									if(regex.test(i) === false){
 										newIndex = 'http://'+site.url+i;
 										products[newIndex] = v;
 										delete products[i];
 									}
+
 								})
 
 								v.products = products;
@@ -365,27 +366,27 @@ function Algolia(site){
 
 	this.checkIndex = function (){
 		
+		var indexName = this.cheatSystem();
+
 		$.ajax({
        		url : 'back/algolia.php',
        		type : 'GET',
-       		data: {action: 'checkIndex', indexName: $this.url},
+       		data: {action: 'checkIndex', indexName: indexName},
        		dataType : 'json',
        		success : function(data, status, jqXHR){
        			if(data === true){
        				tcons('This site already has an Algolia index !');
        				$this.algolia.startSearch();
        			}else if(data === false){
-       				//we need to setSystem
-       				$this.setSystem($this);
+       				//we need to create an index
+       				$this.fetchCategories(site);
        			}
        		}
        	});
 	};
 
-	this.createIndex = function(){
-		cons('createIndex is started');
+	this.cheatSystem = function(){
 
-		//We'll use the indexName to store the system type in order to retrieve it at anytime
 		switch($this.system) {
     		case 'woocommerce':
         		var indexName = 'WC-'+$this.url;
@@ -398,6 +399,15 @@ function Algolia(site){
         		var indexName = $this.url;
         	break;
         };
+
+        return indexName;
+	}
+
+	this.createIndex = function(){
+		cons('createIndex is started');
+
+		//We'll use the indexName to store the system type in order to retrieve it at anytime
+		var indexName = this.cheatSystem();
 
 		$.ajax({
        		url : 'back/algolia.php',

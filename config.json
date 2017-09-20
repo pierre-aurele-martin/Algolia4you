@@ -1,7 +1,7 @@
 {
   "woocommerce": {
     "detect": [
-      "//meta[@name=\"generator\"][contains(@content, \"WooCommerce\")",
+      "//meta[@name=\"generator\"][contains(@content, \"WooCommerce\")]",
       "//link[@id=\"woocommerce-css\"]"
     ],
     "categories":{
