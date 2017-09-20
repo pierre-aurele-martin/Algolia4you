@@ -23,6 +23,10 @@ if(!empty($_GET)){
 		case 'checkIndex':
 			exit(returnJSON(checkIndex(getIndices($client), $_GET['indexName'])));
 		break;
+
+		case 'deleteIndices':
+			exit(deleteAllIndices($client));
+		break;
 	}
 }else if(!empty($_POST)){
 	switch ($_POST['action']) {
@@ -108,6 +112,15 @@ function deleteIndex($client, $indexName){
 	}
 
 	return $client->deleteIndex($indexName);
+}
+
+function deleteAllIndices($client){
+	//Only for debug purpose
+	$indices = getIndices($client);
+	foreach ($indices['items'] as $key => $index) {
+		deleteIndex($client, $index['name']);
+	}
+	return true;
 }
 
 function makeRoom($client, $indices, $length){
