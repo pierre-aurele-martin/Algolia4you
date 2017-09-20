@@ -23,7 +23,8 @@
           "//*[@class=\"woocommerce-product-details__short-description\"]//*[@class=\"wpb_wrapper\"]//text()"
           ],
         "brand": [
-          "(//meta[@property=\"og:site_name\"])[1]//@content"
+          "(//meta[@property=\"og:site_name\"])[1]//@content",
+          "(//meta[@property=\"og:title\"])[1]//@content"
           ],
         "categories": false,
         "hierarchicalCategories": false,

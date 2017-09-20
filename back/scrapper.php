@@ -192,7 +192,14 @@ function getProduct($url, $system){
 			foreach ($search as $node) {
 
 				if($key === 'description'){
-					$product[$key] .= $node->nodeValue;
+					$product[$key] .= trim($node->nodeValue);
+				}else if($key === 'price'){
+
+					$match = preg_match('/(\d{1,}\.?\d{0,})/', $node->nodeValue, $matches);
+					if($match > 0){
+						$product['price'] = (float)$matches[1];
+					}
+
 				}else{
 					if(empty(trim($node->nodeValue)) === false){
 						$product[$key] = $node->nodeValue;
@@ -203,18 +210,8 @@ function getProduct($url, $system){
 			
 		}
 
-		if($key === 'price'){
-
-			$match = preg_match('/(\d{1,}\.?\d{0,})/', $product[$key], $matches);
-
-			if($match < 1){
-				unset($product[$key]);
-			}else{
-				$product[$key] = (float)$matches[1];
-			}
-		}
 	}
-	
+
 	return $product;
 }
 
