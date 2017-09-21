@@ -7,6 +7,7 @@
     "grunt-contrib-cssmin": "^2.2.1",
     "grunt-contrib-jshint": "~1.1.0",
     "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "~0.5.0",
     "grunt-htmllint": "^0.2.7",
     "grunt-include-source": "^1.1.0"

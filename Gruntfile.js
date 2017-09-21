@@ -58,12 +58,22 @@ module.exports = function(grunt) {
 	    		'id-class-style': 'dash'
 	    	}
 	    },
+	    sass: {
+    		dist: {
+      			options: {
+        			style: 'expanded'
+      			},
+      			files: {
+        			'css/style.css': 'sass/style.scss'
+      			}
+    		}
+  		},
 	    cssmin: {
   			options: {
     			mergeIntoShorthands: false,
     			roundingPrecision: -1
   			},
-  			target: {
+  			dist: {
 	    		files: {
 	      			'css/app.min.css': ['css/style.css', 'css/autocomplete.css']
 	    		}
@@ -80,7 +90,7 @@ module.exports = function(grunt) {
 				  	}
 				}
 			},
-			target: {
+			dist: {
 			  files: {
 			    'index.html': 'tpl/index.tpl.html'
 			  }
@@ -94,6 +104,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-htmllint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-include-source');
+	grunt.loadNpmTasks('grunt-contrib-sass');
 
 	grunt.registerTask('default', ['jshint','concat', 'uglify', 'cssmin', 'htmllint']);
 
