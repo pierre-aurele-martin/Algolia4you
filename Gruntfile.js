@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: {
-					'dist/app.min.js': ['<%= concat.dist.dest %>']
+					'dist/app.min.js': ['<%= concat.dist.dest %>'],
 				}
 			}
 		},
@@ -39,15 +39,27 @@ module.exports = function(grunt) {
 	    		'attr-name-style': 'dash',
 	    		'id-class-style': 'dash'
 	    	}
-	    }
+	    },
+	    cssmin: {
+  			options: {
+    			mergeIntoShorthands: false,
+    			roundingPrecision: -1
+  			},
+  			target: {
+	    		files: {
+	      			'css/app.min.css': ['css/style.css', 'css/autocomplete.css']
+	    		}
+	  		}
+		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-htmllint');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 
-	grunt.registerTask('default', ['jshint','concat', 'uglify', 'htmllint']);
+	grunt.registerTask('default', ['jshint','concat', 'uglify', 'htmllint', 'cssmin']);
 
 };
