@@ -32,12 +32,20 @@ module.exports = function(grunt) {
 		        }
 	      	}
 	    },
+	    htmllint: {
+	    	src : ['index.html', 'algolia.html'],
+	    	options: {
+	    		force: true,
+	    	}
+	    }
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-htmllint');
 
-	grunt.registerTask('default', ['jshint','concat', 'uglify']);
+
+	grunt.registerTask('default', ['jshint','concat', 'uglify', 'htmllint']);
 
 };
