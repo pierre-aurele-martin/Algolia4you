@@ -1,8 +1,5 @@
-/*
+/*jshint esversion: 6 */
 
-TODO : 
-
-*/
 const appId = '653YPGRUJS'; /*Algolia default: *latency* mine: *653YPGRUJS* */
 const apiKey = '67aebf7df47999607220ceb259829579'; /*Algolia default: *249078a3d4337a8231f1665ec5a44966* || mine: *67aebf7df47999607220ceb259829579*  */ 
 //const indexName = 'test_BESTBUY'; /*Algolia default: *bestbuy* || mine: *test_BESTBUY* */
@@ -76,7 +73,7 @@ function Site(){
        			return false;
        		}
     	});
-	}
+	};
 
 	this.fetchCategories = function(site){
 		tcons('Starting to fetch your categories, depending on your server, it could take a few minutes.');
@@ -118,7 +115,7 @@ function Site(){
 
 								parseCategories(site, v);
 							}
-						})
+						});
 					}
 				}
 
@@ -160,7 +157,7 @@ function Site(){
        			cons(error);
        		}
     	});
-	}
+	};
 
 	this.handlePromisebyWave = function(site, index){
 
@@ -186,7 +183,7 @@ function Site(){
 			tcons('All your products has been fetched.');
 			site.algolia.createIndex();
 		}
-	}
+	};
 
 	this.fetchProductsUrl = function(resolve, reject, site, index, credit){
 
@@ -199,6 +196,54 @@ function Site(){
        		data: {action: 'fetchCat',system: site.system, url: catUrl, maxPerCat: credit},
        		dataType : 'json',
        	}).then(function(data){
+
+       		function parseCategories(site, cats){
+				if(typeof cats === 'object'){
+					
+					$.each(cats, function(i,v){	
+						//if we only have a "url" object, then we're on last branch and can parse it
+						if(Object.keys(v).length === 2 && 'url' in v && cat === i){
+
+							//Sometime, the root or URL is not in the link. Then we must add it
+							var regex = /^http/;
+							$.each(products, function(i,v){
+								
+								if(regex.test(i) === false){
+									newIndex = 'http://'+site.url+i;
+									products[newIndex] = v;
+									delete products[i];
+								}
+
+							});
+
+							v.products = products;
+							
+							//No need to make promise on nothing ;)
+							if(dataLength > 0){
+								var FPU = new Promise(function (res, rej){
+									site.fetchProduct(res, rej, site, v, cat);
+								}).then(function(result){
+									//so we can resolve upper promise
+									resolve(true);
+
+								}).catch(function(result){
+									tcons('An error append while getting your products. Sorry.');
+									cons(result);
+									reject(false);
+								});
+							}else{
+								//If we don't have any products, we can directly resolve here
+								resolve(true);
+							}
+
+
+						}else if(typeof v == 'object' && !('products' in v)){ // then we need to go deeper in the tree
+							parseCategories(site, v);
+						}
+					});
+
+				}
+			}
 
        		if('error' in data){
        			tcons('An error occured while fetching products from your cats.');
@@ -220,60 +265,12 @@ function Site(){
 
        			tcons('<span id="'+cat+'">0</span> / '+dataLength + ' products crawled in category ' + cat);
 
-       			function parseCategories(site, cats){
-					if(typeof cats === 'object'){
-						
-						$.each(cats, function(i,v){	
-							//if we only have a "url" object, then we're on last branch and can parse it
-							if(Object.keys(v).length === 2 && 'url' in v && cat === i){
-
-								//Sometime, the root or URL is not in the link. Then we must add it
-								var regex = /^http/;
-								$.each(products, function(i,v){
-									
-									if(regex.test(i) === false){
-										newIndex = 'http://'+site.url+i;
-										products[newIndex] = v;
-										delete products[i];
-									}
-
-								})
-
-								v.products = products;
-								
-								//No need to make promise on nothing ;)
-								if(dataLength > 0){
-									var FPU = new Promise(function (res, rej){
-										site.fetchProduct(res, rej, site, v, cat)
-									}).then(function(result){
-										//so we can resolve upper promise
-										resolve(true);
-
-									}).catch(function(result){
-										tcons('An error append while getting your products. Sorry.');
-										cons(result);
-										reject(false);
-									});
-								}else{
-									//If we don't have any products, we can directly resolve here
-									resolve(true);
-								}
-
-
-							}else if(typeof v == 'object' && !('products' in v)){ // then we need to go deeper in the tree
-								parseCategories(site, v);
-							}
-						})
-
-					}
-				}
-
 				parseCategories(site, site.cats);
 
 		    }
 
        	});
-	}
+	};
 
 	this.fetchProduct = function(res, rej, site, catObject, cat){
 
@@ -357,8 +354,8 @@ function Site(){
 				}
 			}
 		});
-	}
-};
+	};
+}
 
 //Algolia CRUD - Work on Index parameters with crawl results
 function Algolia(site){
@@ -393,21 +390,22 @@ function Algolia(site){
 
 	this.cheatSystem = function(){
 
+		var indexName;
 		switch($this.system) {
     		case 'woocommerce':
-        		var indexName = 'WC-'+$this.url;
+        		indexName = 'WC-'+$this.url;
         	break;
         	case 'shopify':
-        		var indexName = 'SY-'+$this.url;
+        		indexName = 'SY-'+$this.url;
         	break;
         	default:
         		//should never happen cause we can't get there without knowing the system...
-        		var indexName = $this.url;
+        		indexName = $this.url;
         	break;
-        };
+        }
 
         return indexName;
-	}
+	};
 
 	this.createIndex = function(){
 		//We'll use the indexName to store the system type in order to retrieve it at anytime
@@ -426,11 +424,11 @@ function Algolia(site){
        				cons(jqXHR);
        			}else if(data){
        				tcons('Congratulations, your products are now in an Algolia index ! ');
-       				tcons('You\'ll see your new search engine in a few seconds...')
+       				tcons('You\'ll see your new search engine in a few seconds...');
        				
        				var wait = setTimeout(function(){
        					$this.algolia.startSearch();
-       				}, 3500)
+       				}, 3500);
        			}
        		}
        	});
@@ -462,12 +460,12 @@ function Algolia(site){
        			}
        		}
        	});
-	}
+	};
 
 	this.startSearch = function(){
 		var indexName = this.cheatSystem();
 		document.location.href = 'algolia.html#'+indexName;
-	}
+	};
 }
 
 //Algolia READONLY - Init all Algolia libraries on ecommerce page
@@ -481,11 +479,9 @@ function Search(){
 		this.initAutoComplete(indexName);
 		
 		this.initInstantSearch(indexName);
-	}
+	};
 
 	this.initInstantSearch = function(indexName){
-
-		cons('new instantsearch ==> ' + indexName)
 		
 		var search = instantsearch({
 			appId: appId,
@@ -582,12 +578,12 @@ function Search(){
 
 		search.start();
 
-	}
+	};
 
 	this.initAutoComplete = function(indexName){
 
 		cons('Autocomplete is init for index ==> ' + indexName);
-		var client = algoliasearch(appId, apiKey)
+		var client = algoliasearch(appId, apiKey);
 		var index = client.initIndex(indexName);
 		
 		$('#search-input').autocomplete(
@@ -609,7 +605,7 @@ function Search(){
 		).on('autocomplete:selected', function(event, suggestion, dataset) {
 		   	//console.log(suggestion, dataset);
 		});
-	}
+	};
 }
 
 //Generate indices link into navbar dropdown
@@ -626,7 +622,7 @@ function getIndices(){
 
     		$.each(data.items, function(i,v){
     			menu.append('<a class="dropdown-item alg-index" href="algolia.html#'+v.name+'">'+v.realName+'</a>');
-    		})
+    		});
 
     		//Debug
     		//var item = menu.find('.alg-index:eq(0)');
@@ -644,11 +640,11 @@ function getIndices(){
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 
-function cons(a){console.log(a)};
+function cons(a){console.log(a);}
 //Seems like the perfect component to learn / start with Vuejs
 function tcons(a){
 	$('#console').append('>' + a + '<br/>');
 	$("#console-container").scrollTop($("#console-container")[0].scrollHeight);
-};
+}

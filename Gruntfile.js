@@ -19,12 +19,25 @@ module.exports = function(grunt) {
 					'dist/app.min.js': ['<%= concat.dist.dest %>']
 				}
 			}
-		}
+		},
+		jshint: {
+      		files: ['Gruntfile.js', 'src/**/*.js'],
+	      	options: {
+		        // options here to override JSHint defaults
+		        globals: {
+		          jQuery: true,
+		          console: true,
+		          module: true,
+		          document: true
+		        }
+	      	}
+	    },
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
-	grunt.registerTask('default', ['concat', 'uglify']);
+	grunt.registerTask('default', ['jshint','concat', 'uglify']);
 
 };
