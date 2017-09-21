@@ -425,8 +425,12 @@ function Algolia(site){
        				cons(status);
        				cons(jqXHR);
        			}else if(data){
-       				tcons('Congratulations, your products are now in an Algolia index !');
-       				$this.algolia.startSearch();
+       				tcons('Congratulations, your products are now in an Algolia index ! ');
+       				tcons('You\'ll see your new search engine in a few seconds...')
+       				
+       				var wait = setTimeout(function(){
+       					$this.algolia.startSearch();
+       				}, 3500)
        			}
        		}
        	});
