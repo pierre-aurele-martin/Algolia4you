@@ -50,7 +50,22 @@ module.exports = function(grunt) {
 	      			'css/app.min.css': ['css/style.css', 'css/autocomplete.css']
 	    		}
 	  		}
-		}
+		},
+		includeSource: {
+		    options: {
+		    	templates: {
+     				html: {
+        				js: '<script src="{filePath}"></script>',
+        				css: '<link rel="stylesheet" type="text/css" href="{filePath}" />',
+      				},
+      			},
+		    },
+		    myTarget: {
+		    	files: {
+		    		'index.html':'css/app.min.css'
+		    	}
+		    },
+		},
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
@@ -58,7 +73,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-htmllint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-
+	grunt.loadNpmTasks('grunt-include-source');
 
 	grunt.registerTask('default', ['jshint','concat', 'uglify', 'htmllint', 'cssmin']);
 

@@ -8,7 +8,8 @@
     "grunt-contrib-jshint": "~1.1.0",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-uglify": "~0.5.0",
-    "grunt-htmllint": "^0.2.7"
+    "grunt-htmllint": "^0.2.7",
+    "grunt-include-source": "^1.1.0"
   },
   "description": "# Goal  Allow some e-commerce owner who wants to try [Algolia](https://algolia.com) without anything to code to actually do that.",
   "main": "src/app.js",
