@@ -3,12 +3,12 @@
 # Goal 
 Allow some e-commerce owner who wants to try [Algolia](https://algolia.com) without anything to code to actually do that.
 
-# How it works
-  *1 - Simply go to [pamart.in/Algolia4you/](http://pamart.in/Algolia4you/)
-  *2 - Put your e-commerce CMS in the input
-  *3 - Let the magic happen
+# How does it work?
+1. Simply go to [pamart.in/Algolia4you/](http://pamart.in/Algolia4you/)
+2. Put your e-commerce CMS in the input
+3. Let the magic happen
 
-# Limitation
+# Limitations
 For now it only works with Woocomerce (YEAST SEO installed) and Shopify. Prestashop should arrive
 Limit for each site is 500 objects as the app on my site is plugged to a Community plan
 
@@ -18,9 +18,9 @@ If you want plug your own accound to use this tools, you'll simple have to chang
  * AppID in app.js const appId = '[your-app-id]';
  * apiKey in app.js const apiKey = '[your-api-READ-ONLY]';
 
-** !!!Never put your Admin API Key in a front Javascript file!!! **
+** !!!Never put your Admin API Key in a frontend Javascript file!!! **
 
-# Left to do :
+# Still to do:
 
 * Listen and adapt to your feedback
 * Fine tunes the indices
@@ -33,11 +33,10 @@ If you want plug your own accound to use this tools, you'll simple have to chang
 * Remove first level of categories when generic (shops, collections etc...)
 * Lite version of the repo
 
-* Sky is the limit...
+* The sky is the limit...
 
-I'll create github issues to details those.
+I'll create GitHub issues to details those.
 
 # Disclaimer
 
-I code for fun and this was made to show Algolia my <3 !
-
+I code for fun and this was made to show Algolia my :heart: !
