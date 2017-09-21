@@ -35,7 +35,9 @@ module.exports = function(grunt) {
 	    htmllint: {
 	    	src : ['index.html', 'algolia.html'],
 	    	options: {
-	    		force: true
+	    		force: true,
+	    		'attr-name-style': 'dash',
+	    		'id-class-style': 'dash'
 	    	}
 	    }
 	});

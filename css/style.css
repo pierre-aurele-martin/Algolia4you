@@ -22,6 +22,10 @@ h6 {
     font-weight: 700;
 }
 
+.pt-1{
+    padding-top: 1em;
+}
+
 #menu-dropdown{
     width: 300px;
     font-size: 18px;
@@ -37,6 +41,8 @@ a.dropdown-item{
 
 .navbar-brand>img{
     display: inline-block;
+    max-height: 30px;
+    max-width: 30px;
 }
 
 .lead {
@@ -46,6 +52,17 @@ a.dropdown-item{
 
 .popover-content{
     color: #000;
+}
+
+.iframe-container{
+    max-width: 100%; 
+    width:560px; 
+    height:315px;
+}
+
+.iframe-container > iframe{
+    width: 100%;
+    height: 100%;
 }
 
 .intro-header {
