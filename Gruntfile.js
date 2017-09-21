@@ -1,6 +1,24 @@
 module.exports = function(grunt) {
+
+	//grunt.file.expandMapping
+	//<!-- include: "type": "css", "files": "<%= sources.all.css %>" -->
+
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		sources:{
+			all: {
+				css: [
+					'maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
+					'css/open-iconic-bootstrap.min.css',
+					'fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic',
+					'css/app.min.css'
+				],
+				js : [],
+			},
+			index: {
+				'css': ['css/app.min.css', 'css/autocomplete.css']
+			}
+		},
 		concat: {
 			options: {
 				separator: ';'
@@ -16,7 +34,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: {
-					'dist/app.min.js': ['<%= concat.dist.dest %>'],
+					'dist/app.min.js': ['<%= concat.dist.dest %>']
 				}
 			}
 		},
@@ -52,20 +70,22 @@ module.exports = function(grunt) {
 	  		}
 		},
 		includeSource: {
-		    options: {
-		    	templates: {
-     				html: {
-        				js: '<script src="{filePath}"></script>',
-        				css: '<link rel="stylesheet" type="text/css" href="{filePath}" />',
-      				},
-      			},
-		    },
-		    myTarget: {
-		    	files: {
-		    		'index.html':'css/app.min.css'
-		    	}
-		    },
-		},
+			options: {
+				basePath: '',
+				baseUrl: '',
+				templates: {
+					html: {
+				  		js: '<script src="{filePath}"></script>',
+				    	css: '<link rel="stylesheet" type="text/css" href="{filePathDecoded}" />',
+				  	}
+				}
+			},
+			target: {
+			  files: {
+			    'index.html': 'tpl/index.tpl.html'
+			  }
+			}
+		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
@@ -75,6 +95,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-include-source');
 
-	grunt.registerTask('default', ['jshint','concat', 'uglify', 'htmllint', 'cssmin']);
+	grunt.registerTask('default', ['jshint','concat', 'uglify', 'cssmin', 'htmllint']);
 
 };
