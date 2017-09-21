@@ -1,12 +1,12 @@
 # Algolia4You
 
 # Goal 
-Allow some e-commerce owner who wants to try Algolia without anything to code to actually do that.
+Allow some e-commerce owner who wants to try [Algolia](https://algolia.com) without anything to code to actually do that.
 
 # How it works
-  1 - Simply go to [pamart.in/Algolia4you/](http://pamart.in/Algolia4you/)
-  2 - Put your e-commerce CMS in the input
-  3 - Let the magic happen
+  *1 - Simply go to [pamart.in/Algolia4you/](http://pamart.in/Algolia4you/)
+  *2 - Put your e-commerce CMS in the input
+  *3 - Let the magic happen
 
 # Limitation
 For now it only works with Woocomerce (YEAST SEO installed) and Shopify. Prestashop should arrive
@@ -18,9 +18,9 @@ If you want plug your own accound to use this tools, you'll simple have to chang
  * AppID in app.js const appId = '[your-app-id]';
  * apiKey in app.js const apiKey = '[your-api-READ-ONLY]';
 
-!!!Never put your Admin API Key in a front Javascript file!!!
+** !!!Never put your Admin API Key in a front Javascript file!!! **
 
-#Left to do :
+# Left to do :
 
 * Listen and adapt to your feedback
 * Fine tunes the indices
@@ -37,7 +37,7 @@ If you want plug your own accound to use this tools, you'll simple have to chang
 
 I'll create github issues to details those.
 
-#Disclaimer
+# Disclaimer
 
 I code for fun and this was made to show Algolia my <3 !
 
