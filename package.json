@@ -1,0 +1,32 @@
+{
+  "name": "algolia-4-you",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "~0.5.0"
+  },
+  "description": "# Goal  Allow some e-commerce owner who wants to try [Algolia](https://algolia.com) without anything to code to actually do that.",
+  "main": "app.js",
+  "dependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pierre-aurele-martin/Algolia4you.git"
+  },
+  "keywords": [
+    "algolia",
+    "crawler",
+    "instantsearch.js",
+    "autocomplete.js"
+  ],
+  "author": "Pierre Aurèle Martin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pierre-aurele-martin/Algolia4you/issues"
+  },
+  "homepage": "https://github.com/pierre-aurele-martin/Algolia4you#readme"
+}
