@@ -12,7 +12,7 @@
     "grunt-htmllint": "^0.2.7",
     "grunt-template": "^1.0.0"
   },
-  "description": "# Goal  Allow some e-commerce owner who wants to try [Algolia](https://algolia.com) without anything to code to actually do that.",
+  "description": "Try Algolia's power on your website in a single type",
   "main": "src/app.js",
   "dependencies": {},
   "scripts": {

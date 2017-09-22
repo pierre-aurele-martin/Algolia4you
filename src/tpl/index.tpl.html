@@ -4,77 +4,26 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Try Algolia&#x27;s power on your website in a single type">
-        <meta name="author" content="Pierre Aurèle Martin">
+        <meta name="description" content="<%- pkg.description %>">
+        <meta name="author" content="<%- pkg.author %>">
         <title>Algolia4you - Put your site!</title>
 
-        <link rel="apple-touch-icon" type="image/png" sizes="57x57" href="dist/img/favicon/apple-icon-57x57.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="dist/img/favicon/apple-icon-60x60.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="72x72" href="dist/img/favicon/apple-icon-72x72.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="dist/img/favicon/apple-icon-76x76.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="114x114" href="dist/img/favicon/apple-icon-114x114.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="dist/img/favicon/apple-icon-120x120.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="144x144" href="dist/img/favicon/apple-icon-144x144.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="152x152" href="dist/img/favicon/apple-icon-152x152.png">
-        <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="dist/img/favicon/apple-icon-180x180.png">
-        <link rel="icon" type="image/png" sizes="192x192" href="dist/img/favicon/android-icon-192x192.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="dist/img/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="96x96" href="dist/img/favicon/favicon-96x96.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="dist/img/favicon/favicon-16x16.png">
-        
+        <% _.forEach(all.favicons, function(fav) { %><link rel="<%- fav.rel %>" type="image/png" sizes="<%- fav.sizes %>" href="<%- fav.href %>">
+        <% }); %>
 
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
-        <link href="dist/css/app.min.css" rel="stylesheet" type="text/css" />
-        
+        <% _.forEach(all.css, function(link) { %><link href="<%- link %>" rel="stylesheet" type="text/css" />
+        <% }); %>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        
+        <% _.forEach(all.js.IE9, function(src) { %><script src="<%- src %>"></script>
+        <% }); %>
         <![endif]-->        
     </head>
     <body>
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container nav-container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">
-                <img src="dist/img/favico.png" alt="My own algolia logo">
-                Try Algolia on your website in 0 click
-            </a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item dropdown" id="menu-dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Already worked for &#8711;</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="index.html">Put your own site!</a>
-                        <a class="dropdown-item alg-index" href="#">Loading...</a>
-                    </div>
-                </li>
-                <li>
-                    <a class="navbar-brand" href="https://algolia.com" target="_blank">
-                        Powered by
-                        <img src="dist/img/algolia-logo.png" alt="Algolia logo" height="30">
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>        
+        <%= all.navbar %>        
 
         <!-- Header -->
         <a name="about"></a>
@@ -253,10 +202,8 @@
         </div>
     </footer>
     
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="dist/js/app.min.js"></script>
-    
+    <% _.forEach(all.js.footer, function(src) { %><script src="<%- src %>"></script>
+    <% }); %>
 
     <script type="text/JavaScript">
         const inputs = $('#scrap-url, #scrap-url-2');
