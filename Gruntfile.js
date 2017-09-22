@@ -40,6 +40,19 @@ module.exports = function(grunt) {
 					]
 				},
 				navbar : grunt.file.read('src/tpl/navbar.tpl.html')
+			},
+			algolia: {
+				css: [
+					'//cdn.jsdelivr.net/npm/instantsearch.js@2.0.2/dist/instantsearch.min.css'
+				],
+				js: {
+					'footer': [
+						'//cdn.jsdelivr.net/npm/algoliasearch@3/dist/algoliasearchLite.min.js',
+						'//cdn.jsdelivr.net/npm/algoliasearch-helper@2.21.2/dist/algoliasearch.helper.min.js',
+						'//cdn.jsdelivr.net/npm/instantsearch.js@2.0.2/dist/instantsearch.min.js',
+						'//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js',
+					]
+				}
 			}
 		},
 		concat: {
@@ -82,7 +95,8 @@ module.exports = function(grunt) {
 	            	data: '<%= sources %>'
 	            },
 	            files: {
-	                'index.html': ['src/tpl/index.tpl.html']
+	                'index.html': ['src/tpl/index.tpl.html'],
+	                'algolia.html': ['src/tpl/algolia.tpl.html']
 	            }
 	        }
 	    },
