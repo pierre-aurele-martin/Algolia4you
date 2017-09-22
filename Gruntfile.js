@@ -64,7 +64,8 @@ module.exports = function(grunt) {
         			style: 'expanded'
       			},
       			files: {
-        			'css/style.css': 'sass/style.sass'
+        			'css/style.css': 'sass/style.sass',
+        			'css/autocomplete.css' : 'sass/autocomplete.sass'
       			}
     		}
   		},
