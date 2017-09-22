@@ -15,8 +15,8 @@ Limit for each site is 500 objects as the app on my site is plugged to a Communi
 # Installation
 If you want plug your own accound to use this tools, you'll simple have to change the API key :
  * One back/secret_key.php defining : $GLOBALS['MASTER_KEY'] = [your-write-key];
- * AppID in app.js const appId = '[your-app-id]';
- * apiKey in app.js const apiKey = '[your-api-READ-ONLY]';
+ * AppID in src/js/main.js const appId = '[your-app-id]';
+ * apiKey in src/js/main.js const apiKey = '[your-api-READ-ONLY]';
 
 ** !!!Never put your Admin API Key in a frontend Javascript file!!! **
 
@@ -39,4 +39,4 @@ I'll create GitHub issues to details those.
 
 # Disclaimer
 
-I code for fun and this was made to show Algolia my :heart: !
+I code for fun and this was made to show Algolia some :heart: !
