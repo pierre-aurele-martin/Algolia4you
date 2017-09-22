@@ -10,7 +10,7 @@
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "~0.5.0",
     "grunt-htmllint": "^0.2.7",
-    "grunt-include-source": "^1.1.0"
+    "grunt-template": "^1.0.0"
   },
   "description": "# Goal  Allow some e-commerce owner who wants to try [Algolia](https://algolia.com) without anything to code to actually do that.",
   "main": "src/app.js",
@@ -33,5 +33,5 @@
   "bugs": {
     "url": "https://github.com/pierre-aurele-martin/Algolia4you/issues"
   },
-  "homepage": "https://github.com/pierre-aurele-martin/Algolia4you#readme"
+  "homepage": "http://www.pamart.in/Algolia4you/"
 }

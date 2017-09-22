@@ -86,7 +86,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-htmllint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	//TO uninstall - grunt.loadNpmTasks('grunt-include-source');
+	grunt.loadNpmTasks('grunt-template');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 
 	grunt.registerTask('default', ['jshint','concat', 'uglify', 'sass', 'cssmin', 'htmllint']);
