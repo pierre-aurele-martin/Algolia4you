@@ -95,11 +95,11 @@
                 </div>
             </div>
         </script>
-
-    <% _.forEach(algolia.js.footer, function(src) { %><script src="<%- src %>"></script>
-    <% }); %>
     
     <% _.forEach(all.js.footer, function(src) { %><script src="<%- src %>"></script>
+    <% }); %>
+
+    <% _.forEach(algolia.js.footer, function(src) { %><script src="<%- src %>"></script>
     <% }); %>
 
     <script type="text/JavaScript">
