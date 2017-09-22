@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         			style: 'expanded'
       			},
       			files: {
-        			'css/style.css': 'sass/style.scss'
+        			'css/style.css': 'sass/style.sass'
       			}
     		}
   		},
@@ -78,23 +78,6 @@ module.exports = function(grunt) {
 	      			'css/app.min.css': ['css/style.css', 'css/autocomplete.css']
 	    		}
 	  		}
-		},
-		includeSource: {
-			options: {
-				basePath: '',
-				baseUrl: '',
-				templates: {
-					html: {
-				  		js: '<script src="{filePath}"></script>',
-				    	css: '<link rel="stylesheet" type="text/css" href="{filePathDecoded}" />',
-				  	}
-				}
-			},
-			dist: {
-			  files: {
-			    'index.html': 'tpl/index.tpl.html'
-			  }
-			}
 		}
 	});
 
@@ -103,9 +86,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-htmllint');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-include-source');
+	//TO uninstall - grunt.loadNpmTasks('grunt-include-source');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 
-	grunt.registerTask('default', ['jshint','concat', 'uglify', 'cssmin', 'htmllint']);
+	grunt.registerTask('default', ['jshint','concat', 'uglify', 'sass', 'cssmin', 'htmllint']);
 
 };

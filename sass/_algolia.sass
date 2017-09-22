@@ -1,0 +1,93 @@
+
+
+#search-header
+    padding: 0 3em
+    color: #000
+    background: url(../img/algolia-background.png) no-repeat center center
+    background-size: cover
+
+#search-input
+    font-size: 3em
+    width: 100%
+    padding-left: 1em
+
+    @media (max-width: $break-small - 1px)
+        font-size: 1em
+
+.refiner-container
+    background-color: #FFF
+    +box-shadow($main-text-shadow)
+    padding: 0.25em 2.25em
+
+    h4
+        color: $main-font-color
+        text-shadow: $main-text-shadow
+
+.algolia-autocomplete
+    width: 50%
+   
+    @media (max-width: $break-large - 1px)
+        width: 75%
+    
+    @media (max-width: $break-small - 1px)
+        width: 100%
+
+
+.ais-search-box
+    max-width: none
+
+.ais-search-box--powered-by
+    font-size: 1em
+    width: 100%
+    margin: auto
+
+    @media (max-width: $break-large - 1px)
+        width: 75%
+    
+    @media (max-width: $break-small - 1px)
+        width: 100%
+
+.ais-search-box--magnifier
+    pointer-events: none !important
+    position: relative
+    width: 100%
+    margin: auto
+    top: -5em
+    left: 5px
+
+    @media (max-width: $break-small - 1px)
+        top: -3em
+        left: 2px
+
+.ais-infinite-hits--showmore
+    clear: both
+
+#sbx-icon-search-13
+    +width-height(3em)
+
+    @media (max-width: $break-small - 1px)
+        +width-height(1em)
+
+.card
+    border: 1px solid black
+    margin: 0 0 1em 0
+    padding: 1em 0
+    height: 100%
+    min-height: 350px
+
+    .card-img-top
+        max-width: 95%
+        max-height: 160px
+
+    > .card-name
+        max-height: 50px
+        overflow: scroll
+
+    > .card-text
+        max-height: 100px
+        overflow: scroll
+
+    > .card-footer
+        position: absolute
+        bottom: 2em
+        width: 90%

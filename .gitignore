@@ -1,4 +1,5 @@
 /back/secret_key.php
+/.sass-*
 draft.txt
 .DS_Store
 /node_modules/*

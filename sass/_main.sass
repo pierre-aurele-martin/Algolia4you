@@ -1,0 +1,152 @@
+
+.lead
+    font-size: $main-font-size
+    font-weight: $main-font-weight
+
+.popover-content
+    color: #000
+
+
+.iframe-container
+    max-width: 100%
+    width: 560px
+    height: 315px
+
+    iframe
+        +width-height(100%)
+
+
+.intro-header
+    padding-top: 50px
+    padding-bottom: 0px
+    text-align: center
+    color: $main-font-color
+    background: url(../img/algolia-background.png) no-repeat center center
+    background-size: cover
+
+
+.intro-message
+    position: relative
+    padding-top: 10%
+    padding-bottom: 10%
+
+    > h1
+        margin: 0
+        font-size: 5em
+        text-shadow: $main-text-shadow
+
+    .form-check
+        color: $main-font-color
+        font-size: 1em
+        text-shadow: $main-text-shadow
+
+    @media (max-width: $break-small - 1px)
+        padding-bottom: 15%
+        > h1
+            font-size: 3em
+
+.intro-divider
+    width: 400px
+    border-top: 1px solid $main-font-color
+    border-bottom: 1px solid rgba(0,0,0,0.2)
+        
+    @media (max-width: $break-small - 1px)
+        width: 100%
+
+.intro-message
+    > h3,
+    > h4
+        text-shadow: $main-text-shadow
+
+.network-name
+    text-transform: uppercase
+    font-size: $main-font-size - 4px
+    font-weight: $main-font-weight / 2
+    letter-spacing: 2px
+
+.content-section-a
+    padding: 50px 0
+    background-color: $main-font-color
+
+.content-section-b
+    padding: 50px 0
+    border-top: 1px solid $main-border-color
+    border-bottom: 1px solid $main-border-color
+
+.section-heading
+    margin-bottom: 30px
+
+.section-heading-spacer 
+    float: left
+    width: 200px
+    border-top: 3px solid $main-border-color
+
+.banner
+    padding: 100px 0
+    color: $main-font-color
+    background: url(../img/algolia-background.png) no-repeat center center
+    background-size: cover
+
+    h2
+        margin: 0
+        text-shadow: $main-text-shadow
+        font-size: 3em
+
+    ul
+        margin-bottom: 0
+
+    @media (max-width: $break-small - 1px)
+        h2 
+            margin: 0
+            text-shadow: $main-text-shadow
+            font-size: 3em
+
+.banner-social-buttons 
+    float: right
+    margin-top: 0
+
+
+ul.banner-social-buttons
+    @media (max-width: $break-large - 1px)
+        float: left
+        margin-top: 15px
+
+    @media (max-width: $break-small - 1px)
+        > li
+            display: block
+            margin-bottom: 20px
+            padding: 0
+        
+        > li:last-child
+            margin-bottom: 0
+
+footer
+    padding: 50px 0
+    background-color: $main-font-color
+
+p.copyright
+    margin: 15px 0 0
+
+#console-container
+    max-height: 15em
+    overflow: auto
+
+#scrap-form, 
+#scrap-form-2
+    padding: 5px 0
+
+#scrap-url, 
+#scrap-url-2
+    font-size: 3em
+    height: 2em
+
+    @media (max-width: $break-small - 1px)
+        font-size: 1.5em
+        height: 2em
+
+#url-addon-1, 
+#url-addon-2
+    font-size: 3em
+
+    @media (max-width: $break-small - 1px)
+        font-size: 1.5em
