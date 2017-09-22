@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: ['src/js/**/*.js'],
-				dest: 'dist/app.js'
+				dest: 'dist/js/app.js'
 			},
 		},
 		uglify: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				files: {
-					'dist/app.min.js': ['<%= concat.dist.dest %>']
+					'dist/js/app.min.js': ['<%= concat.dist.dest %>']
 				}
 			}
 		},
@@ -64,8 +64,7 @@ module.exports = function(grunt) {
         			style: 'expanded'
       			},
       			files: {
-        			'css/style.css': 'sass/style.sass',
-        			'css/autocomplete.css' : 'sass/autocomplete.sass'
+        			'src/css/style.css': 'src/sass/style.sass'
       			}
     		}
   		},
@@ -76,7 +75,7 @@ module.exports = function(grunt) {
   			},
   			dist: {
 	    		files: {
-	      			'css/app.min.css': ['css/style.css', 'css/autocomplete.css']
+	      			'dist/css/app.min.css': ['src/css/style.css', 'src/css/open-iconic-bootstrap.min.css']
 	    		}
 	  		}
 		}
