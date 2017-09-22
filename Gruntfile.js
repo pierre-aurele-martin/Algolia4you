@@ -1,8 +1,5 @@
 module.exports = function(grunt) {
 
-	//grunt.file.expandMapping
-	//<!-- include: "type": "css", "files": "<%= sources.all.css %>" -->
-
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		sources:{
