@@ -9,23 +9,26 @@ function Algolia(site){
 		var indexName = this.cheatSystem();
 
 		$.ajax({
-       		url : 'back/algolia.php',
-       		type : 'GET',
-       		data: {action: 'checkIndex', indexName: indexName},
-       		dataType : 'json',
+       		data: {action: 'algolia/checkIndex', indexName: indexName},
        		success : function(data, status, jqXHR){
-       			if(data === true){
-       				//We check if the user asked for a Reindex
-       				if($('#force-reindex').is(':checked')){
-       					$this.algolia.deleteIndex();
-       				}else{
-       					tcons('This site already has an Algolia index !');
-       					$this.algolia.startSearch();
-       				}
-       			}else if(data === false){
-       				//we need to create an index
-       				$this.fetchCategories($this);
-       			}
+       			
+                if(typeof data === 'object' && 'success' in data){
+                    if(data === true){
+           				//We check if the user asked for a Reindex
+           				if($('#force-reindex').is(':checked')){
+           					$this.algolia.deleteIndex();
+           				}else{
+           					tcons('This site already has an Algolia index !');
+           					$this.algolia.startSearch();
+           				}
+           			}else if(data === false){
+           				//we need to create an index
+           				$this.fetchCategories($this);
+           			}
+                }else{
+                    tcons('An error happened in checking Algolia index.');
+                    cons(data);
+                }
        		}
        	});
 	};
@@ -54,24 +57,23 @@ function Algolia(site){
 		var indexName = this.cheatSystem();
 
 		$.ajax({
-       		url : 'back/algolia.php',
        		type : 'POST',
-       		data: {action: 'createIndex', indexName: indexName, batch: JSON.stringify($this.batch)},
-       		dataType : 'json',
+       		data: {action: 'algolia/createIndex', indexName: indexName, batch: JSON.stringify($this.batch)},
        		success : function(data, status, jqXHR){
-       			if(typeof data === 'object' && 'error' in data){
-       				tcons(data.error);
-       				cons(data);
-       				cons(status);
-       				cons(jqXHR);
-       			}else if(data){
+       			
+                if(typeof data === 'object' && 'success' in data){
        				tcons('Congratulations, your products are now in an Algolia index ! ');
        				tcons('You\'ll see your new search engine in a few seconds...');
        				
        				var wait = setTimeout(function(){
        					$this.algolia.startSearch();
        				}, 3500);
-       			}
+       			}else{
+                    tcons(data.error);
+                    cons(data);
+                    cons(status);
+                    cons(jqXHR);
+                }
        		}
        	});
 	};
@@ -81,10 +83,8 @@ function Algolia(site){
 		var indexName = this.cheatSystem();
 
 		$.ajax({
-       		url : 'back/algolia.php',
        		type : 'POST', //DELETE seems to be more problem...
-       		data: {action: 'deleteIndex', indexName: indexName},
-       		dataType : 'json',
+       		data: {action: 'algolia/deleteIndex', indexName: indexName},
        		success : function(data, status, jqXHR){
 
        			if(typeof data === 'object' && 'error' in data){
@@ -92,7 +92,7 @@ function Algolia(site){
        				cons(data);
        				cons(status);
        				cons(jqXHR);
-       			}else if(typeof data === 'object' && 'deletedAt' in data){
+       			}else if(typeof data === 'object' && 'success' in data){
        				tcons('The previous index just get erased.');
        				//Let's start from 0;
        				$this.fetchCategories($this);
@@ -292,10 +292,7 @@ function Site(){
 	this.setSystem = function(){
 
 		$.ajax({
-       		url : 'back/scrapper.php',
-       		type : 'GET',
-       		data: {action: 'checkSystem', url: this.url},
-       		dataType : 'json',
+       		data: {action: 'scrapper/checkSystem', url: this.url},
        		success : function(data, status, jqXHR){
 
        			if('error' in data){
@@ -327,25 +324,11 @@ function Site(){
 		tcons('<div class="" style="position: absolute; right: 0; bottom:2em;"><iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/vGXJANUkOPw" frameborder="0" allowfullscreen></iframe></div>');
 
 		$.ajax({
-       		url : 'back/scrapper.php',
-       		type : 'GET',
-       		data: {action: 'fetchCats', url: site.url, system: site.system},
-       		dataType : 'json',
+       		data: {action: 'scrapper/fetchCats', url: site.url, system: site.system},
        		success : function(data, status, jqXHR){
 
-       			//here we've got the cats tree
-       			site.cats = data.cats;	
-
-       			catsLength = Object.keys(site.cats).length;
-       			
-       			//if no cats were found, let's cancel the operation
-       			if(catsLength < 1){
-       				tcons('No categories were found. We\'ll stop here unfortunately...');
-       				return false;
-       			}
-
        			//now we need to go throught all tree and add the cats to a list that we'll parse
-       			function parseCategories(site, a){
+	       		function parseCategories(site, a){
 					
 					if(typeof a === 'object'){
 
@@ -365,10 +348,6 @@ function Site(){
 					}
 				}
 
-				site.catsInArray = [];
-
-				parseCategories(site, site.cats);
-
 				function crumbCategories(object) {
 				   
 				    Object.keys(object).forEach(function (k) {
@@ -383,24 +362,48 @@ function Site(){
 				    });
 				}
 
-				crumbCategories(site.cats);
+       			if('success' in data){
 
-				//we must have at least one cats so no need to check for specific count here. 
-				tcons(site.catsInArray.length + ' cats were found. Now parsing...');
+	       			//here we've got the cats tree
+	       			site.cats = data.success.cats;	
 
-				site.maxPerCat = Math.floor(site.maxProducts / site.catsInArray.length);
+	       			catsLength = Object.keys(site.cats).length;
+	       			
+	       			//if no cats were found, let's cancel the operation
+	       			if(catsLength < 1){
+	       				tcons('No categories were found. We\'ll stop here unfortunately...');
+	       				return false;
+	       			}
 
-				//DEBUG EASIER : site.catsInArray = site.catsInArray.slice(0,3);
+					site.catsInArray = [];
 
-				//We launch site.maxAsync cats in parrallel to avoid taking to much time.
-				for(i=0; i < site.maxAsync; i++){
-					site.handlePromisebyWave(site, i);
-				}
-       			
+					parseCategories(site, site.cats);
+
+					
+					crumbCategories(site.cats);
+
+					//we must have at least one cats so no need to check for specific count here. 
+					tcons(site.catsInArray.length + ' cats were found. Now parsing...');
+
+					site.maxPerCat = Math.floor(site.maxProducts / site.catsInArray.length);
+
+					//DEBUG EASIER : site.catsInArray = site.catsInArray.slice(0,3);
+
+					//We launch site.maxAsync cats in parrallel to avoid taking to much time.
+					for(i=0; i < site.maxAsync; i++){
+						site.handlePromisebyWave(site, i);
+					}
+
+       			}else{
+       				tcons('We were not able to fetch your categories.');
+	       			cons(data.error);
+	       			return false;
+       			}  			
        		},
        		error : function(error, status, jqXHR){
        			tcons('We were not able to fetch your categories.');
        			cons(error);
+       			return false;
        		}
     	});
 	};
@@ -437,10 +440,7 @@ function Site(){
 		var catUrl = site.catsInArray[index].url;
 
 		$.ajax({
-       		url : 'back/scrapper.php',
-       		type : 'GET',
-       		data: {action: 'fetchCat',system: site.system, url: catUrl, maxPerCat: credit},
-       		dataType : 'json',
+       		data: {action: 'scrapper/fetchCat',system: site.system, url: catUrl, maxPerCat: credit},
        	}).then(function(data){
 
        		function parseCategories(site, cats){
@@ -514,7 +514,6 @@ function Site(){
 				parseCategories(site, site.cats);
 
 		    }
-
        	});
 	};
 
@@ -524,52 +523,42 @@ function Site(){
 
 			//return products[url] = Math.random() * 100;
 			$.ajax({
-	       		url : 'back/scrapper.php',
-	       		type : 'GET',
-	       		data: {action: 'fetchProduct',system: site.system, url: url},
-	       		dataType : 'json',
+	       		data: {action: 'scrapper/fetchProduct',system: site.system, url: url},
 	       		beforeSend: function(){
 	       			//so we're sure we don't launch twice the same url;
 	       			catObject.products[url] = -1;
 	       		}
 	       	}).then(function(data){
 
-	       		if('error' in data){
-	       			tcons('An error occured while trying to get one product. It\'s not as bad as it look, we continue...');
-	       			cons(data);
-	       			catObject.products[url] = {false: false};
-
-	       			//No need to cry, we can still continue
-	       			//Then we relaunch again with the same var
-		       		site.fetchProduct(res, rej, site, catObject, cat);
-
-	       		}else{
+	       		if('success' in data){
 
 	       			/*
 					What do we need at least to add a product : name and price
 	       			*/
-	       			if((data.name !== '' && data.name !== null) && (data.price !== '' && data.price !== null)){
+	       			var product = data.success;
+
+	       			if((product.name !== '' && product.name !== null) && (product.price !== '' && product.price !== null)){
 		       			var crumb = catObject.categories;
 
 		       			var trace = '';
 		       			$.each(crumb, function(i,v){
 		       				var catName = v.replace(/[^\w\s]/gi, ' ').capitalize();
 
-		       				data.categories = (data.categories || []).concat(catName);
+		       				product.categories = (product.categories || []).concat(catName);
 
-		       				data.hierarchicalCategories = (data.hierarchicalCategories || {});
+		       				product.hierarchicalCategories = (product.hierarchicalCategories || {});
 		       			
-		       				data.hierarchicalCategories['lvl'+i] = trace + catName;
+		       				product.hierarchicalCategories['lvl'+i] = trace + catName;
 
 		       				trace += catName + ' > ';
 		       			});
 
-						data.popularity = false;
-						data.rating = false;
+						product.popularity = false;
+						product.rating = false;
 
-		       			catObject.products[url] = data;
+		       			catObject.products[url] = product;
 
-		       			site.batch.push(data);	     
+		       			site.batch.push(product);	     
 
 		       			//Let's show the progress !
 		       			$('#' + cat).text(parseInt($('#' + cat).text()) + 1);  				 
@@ -581,6 +570,14 @@ function Site(){
 		       		//Then we relaunch again with the same var
 		       		site.fetchProduct(res, rej, site, catObject, cat);	
 
+	       		}else{
+	       			tcons('An error occured while trying to get one product. It\'s not as bad as it look, we continue...');
+	       			cons(data);
+	       			catObject.products[url] = {false: false};
+
+	       			//No need to cry, we can still continue
+	       			//Then we relaunch again with the same var
+		       		site.fetchProduct(res, rej, site, catObject, cat);
 	       		}
 
 	       	});
@@ -612,18 +609,22 @@ const apiKey = '67aebf7df47999607220ceb259829579'; /*Algolia default: *249078a3d
 //Generate indices link into navbar dropdown
 function getIndices(){
 	$.ajax({
-    	url : 'back/algolia.php',
-    	type : 'GET',
-    	data: {action: 'getIndices'},
-    	dataType : 'json',
+    	data: {action: 'algolia/getIndices'},
     	success : function(data, status, jqXHR){
 
-    		var menu = $('#menu-dropdown > div.dropdown-menu');
-    		menu.find('.alg-index').remove();
+            if('success' in data){
+        		var menu = $('#menu-dropdown > div.dropdown-menu');
+        		menu.find('.alg-index').remove();
 
-    		$.each(data.items, function(i,v){
-    			menu.append('<a class="dropdown-item alg-index" href="algolia.html#'+v.name+'">'+v.realName+'</a>');
-    		});
+        		$.each(data.success.items, function(i,v){
+        			menu.append('<a class="dropdown-item alg-index" href="algolia.html#'+v.name+'">'+v.realName+'</a>');
+        		});
+
+            }else{
+                tcons('We were not able to get our indices. Our site is down (not algolia).');
+                cons(data);
+                return false;
+            }
 
     		//Debug
     		//var item = menu.find('.alg-index:eq(0)');
@@ -649,3 +650,10 @@ function tcons(a){
 	$('#console').append('>' + a + '<br/>');
 	$("#console-container").scrollTop($("#console-container")[0].scrollHeight);
 }
+
+//Define some ajax setup to go DRY
+$.ajaxSetup({
+    url: "back/router.php",
+    dataType: 'json',
+    type: 'GET'
+ });

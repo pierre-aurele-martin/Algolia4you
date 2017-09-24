@@ -76,6 +76,41 @@ function Site(){
        		data: {action: 'scrapper/fetchCats', url: site.url, system: site.system},
        		success : function(data, status, jqXHR){
 
+       			//now we need to go throught all tree and add the cats to a list that we'll parse
+	       		function parseCategories(site, a){
+					
+					if(typeof a === 'object'){
+
+						$.each(a, function(i,v){
+
+							//if we only have a "url" object, then we're on last branch and can parse it
+							if(Object.keys(v).length === 1 && 'url' in v){
+
+								site.catsInArray.push({'name': i, 'url': v.url});								
+
+							}else{ // then we need to go deeper in the tree
+								//Let's enjoy this loop to build the category tree for Algolia
+
+								parseCategories(site, v);
+							}
+						});
+					}
+				}
+
+				function crumbCategories(object) {
+				   
+				    Object.keys(object).forEach(function (k) {
+
+				        if (object[k] && typeof object[k] === 'object' && !Array.isArray(object[k])){
+
+				            object[k].categories = (object.categories || []).concat(k);
+				            crumbCategories(object[k]);
+
+				        }
+
+				    });
+				}
+
        			if('success' in data){
 
 	       			//here we've got the cats tree
@@ -89,45 +124,11 @@ function Site(){
 	       				return false;
 	       			}
 
-	       			//now we need to go throught all tree and add the cats to a list that we'll parse
-	       			function parseCategories(site, a){
-						
-						if(typeof a === 'object'){
-
-							$.each(a, function(i,v){
-
-								//if we only have a "url" object, then we're on last branch and can parse it
-								if(Object.keys(v).length === 1 && 'url' in v){
-
-									site.catsInArray.push({'name': i, 'url': v.url});								
-
-								}else{ // then we need to go deeper in the tree
-									//Let's enjoy this loop to build the category tree for Algolia
-
-									parseCategories(site, v);
-								}
-							});
-						}
-					}
-
 					site.catsInArray = [];
 
 					parseCategories(site, site.cats);
 
-					function crumbCategories(object) {
-					   
-					    Object.keys(object).forEach(function (k) {
-
-					        if (object[k] && typeof object[k] === 'object' && !Array.isArray(object[k])){
-
-					            object[k].categories = (object.categories || []).concat(k);
-					            crumbCategories(object[k]);
-
-					        }
-
-					    });
-					}
-
+					
 					crumbCategories(site.cats);
 
 					//we must have at least one cats so no need to check for specific count here. 
