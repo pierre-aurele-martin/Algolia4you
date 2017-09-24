@@ -41,10 +41,7 @@ function Site(){
 	this.setSystem = function(){
 
 		$.ajax({
-       		url : 'back/scrapper.php',
-       		type : 'GET',
-       		data: {action: 'checkSystem', url: this.url},
-       		dataType : 'json',
+       		data: {action: 'scrapper/checkSystem', url: this.url},
        		success : function(data, status, jqXHR){
 
        			if('error' in data){
@@ -76,80 +73,85 @@ function Site(){
 		tcons('<div class="" style="position: absolute; right: 0; bottom:2em;"><iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/vGXJANUkOPw" frameborder="0" allowfullscreen></iframe></div>');
 
 		$.ajax({
-       		url : 'back/scrapper.php',
-       		type : 'GET',
-       		data: {action: 'fetchCats', url: site.url, system: site.system},
-       		dataType : 'json',
+       		data: {action: 'scrapper/fetchCats', url: site.url, system: site.system},
        		success : function(data, status, jqXHR){
 
-       			//here we've got the cats tree
-       			site.cats = data.cats;	
+       			if('success' in data){
 
-       			catsLength = Object.keys(site.cats).length;
-       			
-       			//if no cats were found, let's cancel the operation
-       			if(catsLength < 1){
-       				tcons('No categories were found. We\'ll stop here unfortunately...');
-       				return false;
-       			}
+	       			//here we've got the cats tree
+	       			site.cats = data.success.cats;	
 
-       			//now we need to go throught all tree and add the cats to a list that we'll parse
-       			function parseCategories(site, a){
-					
-					if(typeof a === 'object'){
+	       			catsLength = Object.keys(site.cats).length;
+	       			
+	       			//if no cats were found, let's cancel the operation
+	       			if(catsLength < 1){
+	       				tcons('No categories were found. We\'ll stop here unfortunately...');
+	       				return false;
+	       			}
 
-						$.each(a, function(i,v){
+	       			//now we need to go throught all tree and add the cats to a list that we'll parse
+	       			function parseCategories(site, a){
+						
+						if(typeof a === 'object'){
 
-							//if we only have a "url" object, then we're on last branch and can parse it
-							if(Object.keys(v).length === 1 && 'url' in v){
+							$.each(a, function(i,v){
 
-								site.catsInArray.push({'name': i, 'url': v.url});								
+								//if we only have a "url" object, then we're on last branch and can parse it
+								if(Object.keys(v).length === 1 && 'url' in v){
 
-							}else{ // then we need to go deeper in the tree
-								//Let's enjoy this loop to build the category tree for Algolia
+									site.catsInArray.push({'name': i, 'url': v.url});								
 
-								parseCategories(site, v);
-							}
-						});
+								}else{ // then we need to go deeper in the tree
+									//Let's enjoy this loop to build the category tree for Algolia
+
+									parseCategories(site, v);
+								}
+							});
+						}
 					}
-				}
 
-				site.catsInArray = [];
+					site.catsInArray = [];
 
-				parseCategories(site, site.cats);
+					parseCategories(site, site.cats);
 
-				function crumbCategories(object) {
-				   
-				    Object.keys(object).forEach(function (k) {
+					function crumbCategories(object) {
+					   
+					    Object.keys(object).forEach(function (k) {
 
-				        if (object[k] && typeof object[k] === 'object' && !Array.isArray(object[k])){
+					        if (object[k] && typeof object[k] === 'object' && !Array.isArray(object[k])){
 
-				            object[k].categories = (object.categories || []).concat(k);
-				            crumbCategories(object[k]);
+					            object[k].categories = (object.categories || []).concat(k);
+					            crumbCategories(object[k]);
 
-				        }
+					        }
 
-				    });
-				}
+					    });
+					}
 
-				crumbCategories(site.cats);
+					crumbCategories(site.cats);
 
-				//we must have at least one cats so no need to check for specific count here. 
-				tcons(site.catsInArray.length + ' cats were found. Now parsing...');
+					//we must have at least one cats so no need to check for specific count here. 
+					tcons(site.catsInArray.length + ' cats were found. Now parsing...');
 
-				site.maxPerCat = Math.floor(site.maxProducts / site.catsInArray.length);
+					site.maxPerCat = Math.floor(site.maxProducts / site.catsInArray.length);
 
-				//DEBUG EASIER : site.catsInArray = site.catsInArray.slice(0,3);
+					//DEBUG EASIER : site.catsInArray = site.catsInArray.slice(0,3);
 
-				//We launch site.maxAsync cats in parrallel to avoid taking to much time.
-				for(i=0; i < site.maxAsync; i++){
-					site.handlePromisebyWave(site, i);
-				}
-       			
+					//We launch site.maxAsync cats in parrallel to avoid taking to much time.
+					for(i=0; i < site.maxAsync; i++){
+						site.handlePromisebyWave(site, i);
+					}
+
+       			}else{
+       				tcons('We were not able to fetch your categories.');
+	       			cons(data.error);
+	       			return false;
+       			}  			
        		},
        		error : function(error, status, jqXHR){
        			tcons('We were not able to fetch your categories.');
        			cons(error);
+       			return false;
        		}
     	});
 	};
@@ -186,10 +188,7 @@ function Site(){
 		var catUrl = site.catsInArray[index].url;
 
 		$.ajax({
-       		url : 'back/scrapper.php',
-       		type : 'GET',
-       		data: {action: 'fetchCat',system: site.system, url: catUrl, maxPerCat: credit},
-       		dataType : 'json',
+       		data: {action: 'scrapper/fetchCat',system: site.system, url: catUrl, maxPerCat: credit},
        	}).then(function(data){
 
        		function parseCategories(site, cats){
@@ -263,7 +262,6 @@ function Site(){
 				parseCategories(site, site.cats);
 
 		    }
-
        	});
 	};
 
@@ -273,52 +271,42 @@ function Site(){
 
 			//return products[url] = Math.random() * 100;
 			$.ajax({
-	       		url : 'back/scrapper.php',
-	       		type : 'GET',
-	       		data: {action: 'fetchProduct',system: site.system, url: url},
-	       		dataType : 'json',
+	       		data: {action: 'scrapper/fetchProduct',system: site.system, url: url},
 	       		beforeSend: function(){
 	       			//so we're sure we don't launch twice the same url;
 	       			catObject.products[url] = -1;
 	       		}
 	       	}).then(function(data){
 
-	       		if('error' in data){
-	       			tcons('An error occured while trying to get one product. It\'s not as bad as it look, we continue...');
-	       			cons(data);
-	       			catObject.products[url] = {false: false};
-
-	       			//No need to cry, we can still continue
-	       			//Then we relaunch again with the same var
-		       		site.fetchProduct(res, rej, site, catObject, cat);
-
-	       		}else{
+	       		if('success' in data){
 
 	       			/*
 					What do we need at least to add a product : name and price
 	       			*/
-	       			if((data.name !== '' && data.name !== null) && (data.price !== '' && data.price !== null)){
+	       			var product = data.success;
+
+	       			if((product.name !== '' && product.name !== null) && (product.price !== '' && product.price !== null)){
 		       			var crumb = catObject.categories;
 
 		       			var trace = '';
 		       			$.each(crumb, function(i,v){
 		       				var catName = v.replace(/[^\w\s]/gi, ' ').capitalize();
 
-		       				data.categories = (data.categories || []).concat(catName);
+		       				product.categories = (product.categories || []).concat(catName);
 
-		       				data.hierarchicalCategories = (data.hierarchicalCategories || {});
+		       				product.hierarchicalCategories = (product.hierarchicalCategories || {});
 		       			
-		       				data.hierarchicalCategories['lvl'+i] = trace + catName;
+		       				product.hierarchicalCategories['lvl'+i] = trace + catName;
 
 		       				trace += catName + ' > ';
 		       			});
 
-						data.popularity = false;
-						data.rating = false;
+						product.popularity = false;
+						product.rating = false;
 
-		       			catObject.products[url] = data;
+		       			catObject.products[url] = product;
 
-		       			site.batch.push(data);	     
+		       			site.batch.push(product);	     
 
 		       			//Let's show the progress !
 		       			$('#' + cat).text(parseInt($('#' + cat).text()) + 1);  				 
@@ -330,6 +318,14 @@ function Site(){
 		       		//Then we relaunch again with the same var
 		       		site.fetchProduct(res, rej, site, catObject, cat);	
 
+	       		}else{
+	       			tcons('An error occured while trying to get one product. It\'s not as bad as it look, we continue...');
+	       			cons(data);
+	       			catObject.products[url] = {false: false};
+
+	       			//No need to cry, we can still continue
+	       			//Then we relaunch again with the same var
+		       		site.fetchProduct(res, rej, site, catObject, cat);
 	       		}
 
 	       	});

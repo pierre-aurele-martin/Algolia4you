@@ -9,23 +9,26 @@ function Algolia(site){
 		var indexName = this.cheatSystem();
 
 		$.ajax({
-       		url : 'back/algolia.php',
-       		type : 'GET',
-       		data: {action: 'checkIndex', indexName: indexName},
-       		dataType : 'json',
+       		data: {action: 'algolia/checkIndex', indexName: indexName},
        		success : function(data, status, jqXHR){
-       			if(data === true){
-       				//We check if the user asked for a Reindex
-       				if($('#force-reindex').is(':checked')){
-       					$this.algolia.deleteIndex();
-       				}else{
-       					tcons('This site already has an Algolia index !');
-       					$this.algolia.startSearch();
-       				}
-       			}else if(data === false){
-       				//we need to create an index
-       				$this.fetchCategories($this);
-       			}
+       			
+                if(typeof data === 'object' && 'success' in data){
+                    if(data === true){
+           				//We check if the user asked for a Reindex
+           				if($('#force-reindex').is(':checked')){
+           					$this.algolia.deleteIndex();
+           				}else{
+           					tcons('This site already has an Algolia index !');
+           					$this.algolia.startSearch();
+           				}
+           			}else if(data === false){
+           				//we need to create an index
+           				$this.fetchCategories($this);
+           			}
+                }else{
+                    tcons('An error happened in checking Algolia index.');
+                    cons(data);
+                }
        		}
        	});
 	};
@@ -54,24 +57,23 @@ function Algolia(site){
 		var indexName = this.cheatSystem();
 
 		$.ajax({
-       		url : 'back/algolia.php',
        		type : 'POST',
-       		data: {action: 'createIndex', indexName: indexName, batch: JSON.stringify($this.batch)},
-       		dataType : 'json',
+       		data: {action: 'algolia/createIndex', indexName: indexName, batch: JSON.stringify($this.batch)},
        		success : function(data, status, jqXHR){
-       			if(typeof data === 'object' && 'error' in data){
-       				tcons(data.error);
-       				cons(data);
-       				cons(status);
-       				cons(jqXHR);
-       			}else if(data){
+       			
+                if(typeof data === 'object' && 'success' in data){
        				tcons('Congratulations, your products are now in an Algolia index ! ');
        				tcons('You\'ll see your new search engine in a few seconds...');
        				
        				var wait = setTimeout(function(){
        					$this.algolia.startSearch();
        				}, 3500);
-       			}
+       			}else{
+                    tcons(data.error);
+                    cons(data);
+                    cons(status);
+                    cons(jqXHR);
+                }
        		}
        	});
 	};
@@ -81,10 +83,8 @@ function Algolia(site){
 		var indexName = this.cheatSystem();
 
 		$.ajax({
-       		url : 'back/algolia.php',
        		type : 'POST', //DELETE seems to be more problem...
-       		data: {action: 'deleteIndex', indexName: indexName},
-       		dataType : 'json',
+       		data: {action: 'algolia/deleteIndex', indexName: indexName},
        		success : function(data, status, jqXHR){
 
        			if(typeof data === 'object' && 'error' in data){
@@ -92,7 +92,7 @@ function Algolia(site){
        				cons(data);
        				cons(status);
        				cons(jqXHR);
-       			}else if(typeof data === 'object' && 'deletedAt' in data){
+       			}else if(typeof data === 'object' && 'success' in data){
        				tcons('The previous index just get erased.');
        				//Let's start from 0;
        				$this.fetchCategories($this);

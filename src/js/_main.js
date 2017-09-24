@@ -8,18 +8,22 @@ const apiKey = '67aebf7df47999607220ceb259829579'; /*Algolia default: *249078a3d
 //Generate indices link into navbar dropdown
 function getIndices(){
 	$.ajax({
-    	url : 'back/algolia.php',
-    	type : 'GET',
-    	data: {action: 'getIndices'},
-    	dataType : 'json',
+    	data: {action: 'algolia/getIndices'},
     	success : function(data, status, jqXHR){
 
-    		var menu = $('#menu-dropdown > div.dropdown-menu');
-    		menu.find('.alg-index').remove();
+            if('success' in data){
+        		var menu = $('#menu-dropdown > div.dropdown-menu');
+        		menu.find('.alg-index').remove();
 
-    		$.each(data.items, function(i,v){
-    			menu.append('<a class="dropdown-item alg-index" href="algolia.html#'+v.name+'">'+v.realName+'</a>');
-    		});
+        		$.each(data.success.items, function(i,v){
+        			menu.append('<a class="dropdown-item alg-index" href="algolia.html#'+v.name+'">'+v.realName+'</a>');
+        		});
+
+            }else{
+                tcons('We were not able to get our indices. Our site is down (not algolia).');
+                cons(data);
+                return false;
+            }
 
     		//Debug
     		//var item = menu.find('.alg-index:eq(0)');
@@ -45,3 +49,10 @@ function tcons(a){
 	$('#console').append('>' + a + '<br/>');
 	$("#console-container").scrollTop($("#console-container")[0].scrollHeight);
 }
+
+//Define some ajax setup to go DRY
+$.ajaxSetup({
+    url: "back/router.php",
+    dataType: 'json',
+    type: 'GET'
+ });
