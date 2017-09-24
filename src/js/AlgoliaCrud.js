@@ -13,7 +13,7 @@ function Algolia(site){
        		success : function(data, status, jqXHR){
        			
                 if(typeof data === 'object' && 'success' in data){
-                    if(data === true){
+                    if(data.success === true){
            				//We check if the user asked for a Reindex
            				if($('#force-reindex').is(':checked')){
            					$this.algolia.deleteIndex();
@@ -21,7 +21,7 @@ function Algolia(site){
            					tcons('This site already has an Algolia index !');
            					$this.algolia.startSearch();
            				}
-           			}else if(data === false){
+           			}else if(data.success === false){
            				//we need to create an index
            				$this.fetchCategories($this);
            			}

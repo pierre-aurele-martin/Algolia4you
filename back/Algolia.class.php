@@ -50,7 +50,7 @@ class Algolia{
 	public function getIndices(){
 
 		if($this->indices){
-			return $this->sendSuccess($indices);
+			return $this->sendSuccess($this->indices);
 		}else{
 			return $this->sendError('We we\'re not able to fetch our Algolia index.');
 		}
@@ -85,7 +85,7 @@ class Algolia{
 		*/
 
 		//Do we need to make room for this new index ? 
-		$cntObjects = cntObjects($this->indices);
+		$cntObjects = $this->cntObjects($this->indices);
 
 		if($this->makeRoom(count($batch))){
 
@@ -153,7 +153,7 @@ class Algolia{
 
 	private function makeRoom($length){
 
-		if(cntObjects($this->indices) >= ($this->OBJECTS_LIMIT - $length)){
+		if($this->cntObjects($this->indices) >= ($this->OBJECTS_LIMIT - $length)){
 			//get the oldest index
 			$oldestIndex = $this->getOldestIndex($this->indices);
 

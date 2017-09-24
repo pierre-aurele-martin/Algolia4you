@@ -241,12 +241,12 @@ class Scrapper{
 	}
 
 	//Return an error
-	private function sendError($msg){
+	protected function sendError($msg){
 		return $this->returnJSON(array('error' => $msg));
 	}
 
 	//Return a success
-	private function sendSuccess($obj){
+	protected function sendSuccess($obj){
 		return $this->returnJSON(array('success' => $obj));
 	}
 

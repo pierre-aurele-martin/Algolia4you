@@ -16,22 +16,25 @@ if(!empty($_GET)){
 
 		case 'scrapper/fetchCats':
 			//var_dump($_GET);
-			$scrapper = new $system($_GET['system']);
+			$system = $_GET['system'];
+			$scrapper = new $system($system);
 			$cats = $scrapper->fetchCats($_GET['url']);
 			exit($cats);
 		break;
 
 		case 'scrapper/fetchCat':
 			//var_dump($_GET);
-			$scrapper = new $system($_GET['system']);
+			$system = $_GET['system'];
+			$scrapper = new $system($system);
 			$productsLinks = $scrapper->fetchCat($_GET['url'], (int)$_GET['maxPerCat']);
 			exit($productsLinks);
 		break;
 
 		case 'scrapper/fetchProduct':
 			//var_dump($_GET);
-			$scrapper = new $system($_GET['system']);
-			$product = $site->getProduct($_GET['url']);
+			$system = $_GET['system'];
+			$scrapper = new $system($system);
+			$product = $scrapper->getProduct($_GET['url']);
 			exit($product);
 		break;
 
