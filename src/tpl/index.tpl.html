@@ -6,6 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="<%- pkg.description %>">
         <meta name="author" content="<%- pkg.author %>">
+
+        <% _.forEach(index.meta, function(data) { %><meta property="<%- data.property %>" content="<%- data.content %>" />
+        <% }); %>
+    
+        <% _.forEach(all.meta, function(data) { %><meta property="<%- data.property %>" content="<%- data.content %>" />
+        <% }); %>
+
         <title>Algolia4you - Put your site!</title>
 
         <% _.forEach(all.favicons, function(fav) { %><link rel="<%- fav.rel %>" type="image/png" sizes="<%- fav.sizes %>" href="<%- fav.href %>">

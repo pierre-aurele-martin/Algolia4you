@@ -20,6 +20,11 @@ module.exports = function(grunt) {
 			        {rel: 'icon', sizes: '96x96', href: 'dist/img/favicon/favicon-96x96.png'},
 			        {rel: 'icon', sizes: '16x16', href: 'dist/img/favicon/favicon-16x16.png'}
 			    ],
+			    meta: [
+			    	{property: "og:title" , content: "<%= pkg.name %>"},
+			    	{property: "og:description" , content: "<%= pkg.description %>"},
+			    	{property: "og:image" , content: "dist/img/algolia4you.jpg"}
+			    ],
 				css: [
 					'//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
 					'//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic',
@@ -39,6 +44,9 @@ module.exports = function(grunt) {
 				navbar : grunt.file.read('src/tpl/navbar.tpl.html')
 			},
 			algolia: {
+				meta: [
+			    	{property: "og:url" , content: "http://pamart.in/algolia4you/algolia.html"}
+			    ],
 				css: [
 					'//cdn.jsdelivr.net/npm/instantsearch.js@2.0.2/dist/instantsearch.min.css'
 				],
@@ -50,6 +58,11 @@ module.exports = function(grunt) {
 						'//cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js',
 					]
 				}
+			},
+			index: {
+				meta: [
+			    	{property: "og:url" , content: "http://pamart.in/algolia4you/"}
+			    ]
 			}
 		},
 		concat: {

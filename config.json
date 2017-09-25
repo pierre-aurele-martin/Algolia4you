@@ -67,5 +67,33 @@
         "popularity": false,
         "rating": false
     }
+  },
+  "prestashop": {
+    "detect": [
+    ],
+    "categories":{
+    },
+    "products": {
+      "product" : [
+      ],
+      "paging" : ""
+    },
+    "product":{
+        "name": [
+        ],
+        "description": [
+          ],
+        "brand": [
+          ],
+        "categories": false,
+        "hierarchicalCategories": false,
+        "price": [
+          ],
+        "image": [
+          ],
+        "url": false,
+        "popularity": false,
+        "rating": false
+    }
   }
 }
