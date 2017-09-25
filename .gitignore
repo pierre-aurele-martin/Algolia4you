@@ -5,3 +5,4 @@ draft.txt
 /node_modules/*
 package-lock.json
 .sublime-grunt.cache
+back/Shopify.class.php

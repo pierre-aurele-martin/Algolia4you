@@ -116,6 +116,18 @@ function Site(){
 	       			//here we've got the cats tree
 	       			site.cats = data.success.cats;	
 
+	       			//Shopify allow us to get a full Crawl at this step
+	       			if(site.system === 'shopify'){
+
+	       				$.each(site.cats, function(catName,v){
+	       					$.each(v.products, function(index, product){
+	       						site.batch.push(product);
+	       					});
+	       				});
+
+	       				return site.algolia.createIndex();
+	       			}
+
 	       			catsLength = Object.keys(site.cats).length;
 	       			
 	       			//if no cats were found, let's cancel the operation
